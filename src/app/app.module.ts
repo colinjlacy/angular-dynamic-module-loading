@@ -3,19 +3,22 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { FIRST_PAGE_ROUTE } from './routes/root.route';
-import { FirstPageView } from './views/first-page.view';
+import { ROUTES } from './routes/index';
+import { VIEWS } from './views/index';
+import { RESOLVES } from './resolves/index';
 
 @NgModule({
     declarations: [
         AppComponent,
-        FirstPageView
+        ...VIEWS
     ],
     imports: [
         BrowserModule,
-        RouterModule.forRoot([FIRST_PAGE_ROUTE])
+        RouterModule.forRoot(ROUTES)
     ],
-    providers: [],
+    providers: [
+        ...RESOLVES
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {
