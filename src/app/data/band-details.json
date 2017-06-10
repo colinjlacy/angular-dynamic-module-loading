@@ -1,0 +1,30 @@
+[
+    {
+        "name": "Nirvana",
+        "id": 1,
+        "members": [
+            "Kurt Cobain", "Dave Grohl", "Krist Novoselic"
+        ],
+        "songs": [
+            "Smells like Teen Spirit",
+            "Come As You Are",
+            "The Man Who Sold the World"
+        ]
+    },
+    {
+        "name": "Pearl Jam",
+        "id": 2,
+        "members": [
+            "Eddie Vedder",
+            "Stone Gossard",
+            "Mike McCready",
+            "Jeff Ament",
+            "Dave Krusen"
+        ],
+        "songs": [
+            "Jeremy",
+            "Black",
+            "Better Man"
+        ]
+    }
+]
