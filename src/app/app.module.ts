@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { ROUTES } from './routes/index';
@@ -14,6 +15,7 @@ import { RESOLVES } from './resolves/index';
     ],
     imports: [
         BrowserModule,
+        HttpModule,
         RouterModule.forRoot(ROUTES)
     ],
     providers: [
