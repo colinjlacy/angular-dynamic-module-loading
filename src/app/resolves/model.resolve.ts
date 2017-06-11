@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as Rx from 'rxjs';
 import { DataService } from '../services/data.service';
@@ -9,7 +10,7 @@ import 'rxjs/add/operator/combineLatest';
 export class ModelResolve implements Resolve<any> {
     private obs: Observable<any>;
 
-    constructor(private data: DataService) {
+    constructor(private data: DataService, private store: Store<any>) {
         this.obs = new Observable();
     }
 
@@ -28,7 +29,8 @@ export class ModelResolve implements Resolve<any> {
             for(let i = 0; i < dataTypes.length; i++) {
                 retVal[dataTypes[i]] = latestValues[i];
             }
-            return retVal;
+            this.store.dispatch({type: 'SET_MODEL', payload: retVal});
+            return;
         });
     }
 }

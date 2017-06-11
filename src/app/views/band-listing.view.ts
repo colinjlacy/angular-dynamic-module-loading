@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 @Component({
     selector: 'first-page',
@@ -20,19 +21,19 @@ import { ActivatedRoute, Router } from '@angular/router';
     ]
 })
 export class BandListingView {
-    model: {bands:any[]};
+    model: any;
     private modelSubscription: any;
 
-    constructor(private route:ActivatedRoute, private router: Router) {
+    constructor(private route:ActivatedRoute, private router: Router, private store: Store<any>) {
         this.model = {
             bands: []
         };
     }
 
     ngOnInit() {
-        this.modelSubscription = this.route.data.subscribe(val => {
-            console.log(val);
-            this.model.bands = val.model.bands
+        this.modelSubscription = this.store.select('model')
+            .subscribe(val => {
+            this.model = val;
         });
     }
 
