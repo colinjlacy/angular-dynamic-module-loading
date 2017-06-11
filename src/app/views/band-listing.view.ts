@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     <h1>First Page</h1>
     <div class="left-panel">
         <ul>
-            <li *ngFor="let band of bands" (click)="handleClick(band.id)"><b>{{band.name}}</b></li>
+            <li *ngFor="let band of model.bands" (click)="handleClick(band.id)"><b>{{band.name}}</b></li>
         </ul>
     </div>
     <div class="right-panel">
@@ -20,17 +20,28 @@ import { ActivatedRoute, Router } from '@angular/router';
     ]
 })
 export class BandListingView {
-    bands:any[];
+    model: {bands:any[]};
+    private modelSubscription: any;
 
     constructor(private route:ActivatedRoute, private router: Router) {
-        this.bands = [];
+        this.model = {
+            bands: []
+        };
     }
 
     ngOnInit() {
-        this.route.data.subscribe(val => this.bands = val.model.bands);
+        this.modelSubscription = this.route.data.subscribe(val => {
+            console.log(val);
+            this.model.bands = val.model.bands
+        });
     }
 
     handleClick(id) {
         this.router.navigate(['/', 'band', id]);
     }
+
+    ngOnDestroy() {
+        this.modelSubscription.unsubscribe();
+    }
+
 }

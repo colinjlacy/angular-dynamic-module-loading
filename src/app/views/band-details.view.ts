@@ -6,31 +6,38 @@ import { ActivatedRoute, Router, RouterState } from '@angular/router';
     template: `
     <h1>Second Page</h1>
     <div>
-    <h2>{{band.name}}</h2>
+    <h2>{{model.band.name}}</h2>
     <h3>Songs:</h3>
     <ul>
-        <li *ngFor="let song of band.songs" (click)="routeToSong(song.id)">{{song.name}}</li>
+        <li *ngFor="let song of model.band.songs" (click)="routeToSong(song.id)">{{song.name}}</li>
     </ul>
     <h3>Band members:</h3>
     <ul>
-        <li *ngFor="let musician of band.members">{{musician}}</li>
+        <li *ngFor="let musician of model.band.members">{{musician}}</li>
     </ul>
     </div>
     `,
     styles: [`.left-panel { width: 50%; }`]
 })
 export class BandDetailsView {
-    band: any;
+    model: {band: any};
+    private modelSubscription: any;
 
     constructor(private route:ActivatedRoute, private router: Router) {
-        this.band = {};
+        this.model = {
+            band: {}
+        };
     }
 
     ngOnInit() {
-        this.route.data.subscribe(val => this.band = val.model.band);
+        this.modelSubscription = this.route.data.subscribe(val => this.model.band = val.model.band);
     }
 
     routeToSong(id) {
-        this.router.navigate(['/', 'band', this.band.id, 'song', id]);
+        this.router.navigate(['/', 'band', this.model.band.id, 'song', id]);
+    }
+
+    ngOnDestroy() {
+        this.modelSubscription.unsubscribe();
     }
 }
