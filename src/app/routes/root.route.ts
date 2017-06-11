@@ -2,9 +2,9 @@ import { Route }   from '@angular/router';
 import { BandListingView } from '../views/band-listing.view';
 import { BandDetailsView } from '../views/band-details.view';
 import { SongDetailsView } from '../views/song-details.view';
-import { BandsResolve } from '../resolves/bands';
-import { BandResolve } from '../resolves/band';
-import { SongResolve } from '../resolves/song';
+import { BandsResolve } from '../resolves/bands.resolve';
+import { BandResolve } from '../resolves/band.resolve';
+import { SongResolve } from '../resolves/song.resolve';
 
 export const FIRST_PAGE_ROUTES: Route[] = [
     {
