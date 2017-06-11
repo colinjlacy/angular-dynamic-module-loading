@@ -3,12 +3,23 @@
         "name": "Nirvana",
         "id": 1,
         "members": [
-            "Kurt Cobain", "Dave Grohl", "Krist Novoselic"
+            "Kurt Cobain",
+            "Dave Grohl",
+            "Krist Novoselic"
         ],
         "songs": [
-            "Smells like Teen Spirit",
-            "Come As You Are",
-            "The Man Who Sold the World"
+            {
+                "name": "Smells like Teen Spirit",
+                "id": 1
+            },
+            {
+                "name": "Come As You Are",
+                "id": 2
+            },
+            {
+                "name": "The Man Who Sold the World",
+                "id": 3
+            }
         ]
     },
     {
@@ -22,9 +33,18 @@
             "Dave Krusen"
         ],
         "songs": [
-            "Jeremy",
-            "Black",
-            "Better Man"
+            {
+                "name": "Jeremy",
+                "id": 1
+            },
+            {
+                "name": "Black",
+                "id": 2
+            },
+            {
+                "name": "Better Man",
+                "id": 3
+            }
         ]
     }
 ]

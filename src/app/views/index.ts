@@ -1,9 +1,9 @@
 import { BandListingView } from './band-listing.view';
 import { BandDetailsView } from './band-details.view';
-import { BandEmptyView } from './band-empty.view';
+import { SongDetailsView } from './song-details.view';
 
 export const VIEWS: any[] = [
     BandListingView,
     BandDetailsView,
-    BandEmptyView
+    SongDetailsView
 ];

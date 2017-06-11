@@ -4,13 +4,9 @@ import { ActivatedRoute, Router, RouterState } from '@angular/router';
 @Component({
     selector: 'first-page',
     template: `
-    <h1>Second Page</h1>
+    <h1>{{song.name}}</h1>
     <div>
     <h2>{{band.name}}</h2>
-    <h3>Songs:</h3>
-    <ul>
-        <li *ngFor="let song of band.songs" (click)="routeToSong(song.id)">{{song.name}}</li>
-    </ul>
     <h3>Band members:</h3>
     <ul>
         <li *ngFor="let musician of band.members">{{musician}}</li>
@@ -19,18 +15,20 @@ import { ActivatedRoute, Router, RouterState } from '@angular/router';
     `,
     styles: [`.left-panel { width: 50%; }`]
 })
-export class BandDetailsView {
+export class SongDetailsView {
     band: any;
+    song: any;
 
     constructor(private route:ActivatedRoute, private router: Router) {
         this.band = {};
+        this.song = {};
     }
 
     ngOnInit() {
-        this.route.data.subscribe(val => this.band = val.band);
-    }
-
-    routeToSong(id) {
-        this.router.navigate(['/', 'band', this.band.id, 'song', id]);
+        this.route.data.subscribe(val => {
+            console.log(val);
+            this.band = val.band;
+            this.song = val.song;
+        });
     }
 }

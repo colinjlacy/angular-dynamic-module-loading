@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "songs": [
+            {"name": "Smells like Teen Spirit", "id": 1},
+            {"name": "Come As You Are", "id": 2},
+            {"name": "The Man Who Sold the World", "id": 3}
+        ]
+    },
+    {
+        "id": 2,
+        "songs": [
+            {"name": "Jeremy", "id": 1},
+            {"name": "Black", "id": 2},
+            {"name": "Better Man", "id": 3}
+        ]
+    }
+]
