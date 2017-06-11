@@ -2,23 +2,28 @@ import { Route }   from '@angular/router';
 import { BandListingView } from '../views/band-listing.view';
 import { BandDetailsView } from '../views/band-details.view';
 import { SongDetailsView } from '../views/song-details.view';
-import { BandsResolve } from '../resolves/bands.resolve';
-import { BandResolve } from '../resolves/band.resolve';
-import { SongResolve } from '../resolves/song.resolve';
+import { ModelResolve } from '../resolves/model.resolve';
+import { ResolvedRoute } from '../models/resolved-route.model';
 
-export const FIRST_PAGE_ROUTES: Route[] = [
+export const FIRST_PAGE_ROUTES: ResolvedRoute[] = [
     {
         path: '',
         component: BandListingView,
         resolve: {
-            bands: BandsResolve
+            model: ModelResolve
+        },
+        dependencies: {
+            bands: 'get-bands'
         },
         children: [
             {
                 path: 'band/:id',
                 component: BandDetailsView,
                 resolve: {
-                    band: BandResolve
+                    model: ModelResolve
+                },
+                dependencies: {
+                    band: 'get-band'
                 }
             }
         ],
@@ -27,8 +32,11 @@ export const FIRST_PAGE_ROUTES: Route[] = [
         path: 'band/:id/song/:songId',
         component: SongDetailsView,
         resolve: {
-            song: SongResolve,
-            band: BandResolve
+            model: ModelResolve
+        },
+        dependencies: {
+            song: 'get-song',
+            band: 'get-band'
         }
     }
 ];

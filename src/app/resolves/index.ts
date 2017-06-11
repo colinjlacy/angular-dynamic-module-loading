@@ -1,9 +1,5 @@
-import { BandsResolve } from './bands.resolve';
-import { BandResolve } from './band.resolve';
-import { SongResolve } from './song.resolve';
+import { ModelResolve } from './model.resolve';
 
 export const RESOLVES: any[] = [
-    BandsResolve,
-    BandResolve,
-    SongResolve
+    ModelResolve
 ];

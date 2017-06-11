@@ -27,7 +27,7 @@ export class BandListingView {
     }
 
     ngOnInit() {
-        this.route.data.subscribe(val => this.bands = val.bands);
+        this.route.data.subscribe(val => this.bands = val.model.bands);
     }
 
     handleClick(id) {

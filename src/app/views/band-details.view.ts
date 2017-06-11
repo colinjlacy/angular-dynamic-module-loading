@@ -27,7 +27,7 @@ export class BandDetailsView {
     }
 
     ngOnInit() {
-        this.route.data.subscribe(val => this.band = val.band);
+        this.route.data.subscribe(val => this.band = val.model.band);
     }
 
     routeToSong(id) {
