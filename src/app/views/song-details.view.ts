@@ -5,13 +5,11 @@ import { ActivatedRoute, Router, RouterState } from '@angular/router';
     selector: 'first-page',
     template: `
     <h1>{{model.song.name}}</h1>
-    <div>
     <h2>{{model.band.name}}</h2>
     <h3>Band members:</h3>
     <ul>
         <li *ngFor="let musician of model.band.members">{{musician}}</li>
     </ul>
-    </div>
     `,
     styles: [`.left-panel { width: 50%; }`]
 })
