@@ -26,9 +26,6 @@ export class BandListingView extends BaseView {
 
     constructor(public route:ActivatedRoute, private router: Router, public store: Store<any>) {
         super(store, route);
-        this.model = {
-            bands: []
-        };
     }
 
     handleClick(id) {

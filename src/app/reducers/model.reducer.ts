@@ -12,7 +12,7 @@ export const model = (state: any = {}, action: {type: string, payload?: any} = {
             return val;
 
         case REMOVE_DEPENDENCIES:
-            let keys = Object.keys(action.payload);
+            let keys = action.payload;
             keys.forEach(key => {
                 if(state.dependencyKeys.indexOf(key) === -1) delete state[key];
             });
