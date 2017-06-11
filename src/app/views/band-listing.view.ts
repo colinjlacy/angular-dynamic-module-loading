@@ -26,10 +26,16 @@ export class BandListingView extends BaseView {
 
     constructor(public route:ActivatedRoute, private router: Router, public store: Store<any>) {
         super(store, route);
+        this.baseViewHooks.initHooks.push({action: this.logMessage, arguments: ['COLIN!!!']});
+        this.baseViewHooks.destroyHooks.push({action: this.logMessage, arguments: ['LACY!!!']});
     }
 
     handleClick(id) {
         this.router.navigate(['/', 'band', id]);
+    }
+
+    logMessage(message) {
+        console.log(message);
     }
 
 }
