@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
+import { BaseView } from './base.view';
+
 @Component({
     selector: 'first-page',
     template: `
@@ -20,29 +22,17 @@ import { Store } from '@ngrx/store';
         `.right-panel { float: left; width: 50%; }`,
     ]
 })
-export class BandListingView {
-    model: any;
-    private modelSubscription: any;
+export class BandListingView extends BaseView {
 
-    constructor(private route:ActivatedRoute, private router: Router, private store: Store<any>) {
+    constructor(public route:ActivatedRoute, private router: Router, public store: Store<any>) {
+        super(store, route);
         this.model = {
             bands: []
         };
     }
 
-    ngOnInit() {
-        this.modelSubscription = this.store.select('model')
-            .subscribe(val => {
-            this.model = val;
-        });
-    }
-
     handleClick(id) {
         this.router.navigate(['/', 'band', id]);
-    }
-
-    ngOnDestroy() {
-        this.modelSubscription.unsubscribe();
     }
 
 }

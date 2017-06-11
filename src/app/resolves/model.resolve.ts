@@ -15,6 +15,7 @@ export class ModelResolve implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+        console.log(route);
         let dataTypes = Object.keys(route.routeConfig['dependencies']);
         let dataObservables = [];
 
