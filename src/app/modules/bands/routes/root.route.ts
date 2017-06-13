@@ -5,7 +5,7 @@ import { SongDetailsView } from '../views/song-details.view';
 import { ModelResolve } from '../resolves/model.resolve';
 import { ResolvedRoute } from '../models/resolved-route.model';
 
-export const FIRST_PAGE_ROUTES: ResolvedRoute[] = [
+export const BAND_ROUTES: ResolvedRoute[] = [
     {
         path: '',
         component: BandListingView,

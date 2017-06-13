@@ -31,7 +31,7 @@ export class BandListingView extends BaseView {
     }
 
     handleClick(id) {
-        this.router.navigate(['/', 'band', id]);
+        this.router.navigate(['band', id], { relativeTo: this.route });
     }
 
     logMessage(message) {

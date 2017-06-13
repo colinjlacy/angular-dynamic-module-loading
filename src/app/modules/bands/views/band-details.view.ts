@@ -27,6 +27,6 @@ export class BandDetailsView extends BaseView {
     }
 
     routeToSong(id) {
-        this.router.navigate(['/', 'band', this.model.band.id, 'song', id]);
+        this.router.navigate(['song', id], { relativeTo: this.route });
     }
 }

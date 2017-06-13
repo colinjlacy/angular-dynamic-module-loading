@@ -5,28 +5,22 @@ import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
 
 import { AppComponent } from './app.component';
-import { ROUTES } from './routes/index';
-import { VIEWS } from './views/index';
-import { RESOLVES } from './resolves/index';
-import { SERVICES } from './services/index';
-import { model } from './reducers/model.reducer';
+import { GenresModule } from './modules/genres/genres.module';
+import { BandsModule } from './modules/bands/bands.module';
+import { GENRE_ROUTES } from './app.routes';
 
 @NgModule({
     declarations: [
         AppComponent,
-        ...VIEWS
     ],
     imports: [
         BrowserModule,
         HttpModule,
-        RouterModule.forRoot(ROUTES),
-        StoreModule.provideStore({model})
+        GenresModule,
+        BandsModule,
+        RouterModule.forRoot(GENRE_ROUTES)
     ],
-    providers: [
-        ...RESOLVES,
-        ...SERVICES
-    ],
+    providers: [],
     bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule {}
