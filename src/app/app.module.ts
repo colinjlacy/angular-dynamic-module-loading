@@ -4,9 +4,9 @@ import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
 
 import { AppComponent } from './app.component';
-import { GenresModule } from './modules/genres/genres.module';
-import { BandsModule } from './modules/bands/bands.module';
-import { GenreRoutesModule } from './modules/genres/genre-routes.module';
+import { GenresModule } from './genres/genres.module';
+import { BandsModule } from './bands/bands.module';
+import { GenreRoutesModule } from './genres/genre-routes.module';
 
 @NgModule({
     declarations: [
