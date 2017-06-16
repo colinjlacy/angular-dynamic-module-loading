@@ -4,9 +4,7 @@ import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
 
 import { AppComponent } from './app.component';
-import { GenresModule } from './genres/genres.module';
-import { BandsModule } from './bands/bands.module';
-import { GenreRoutesModule } from './genres/genre-routes.module';
+import { AppRoutesModule } from './app-routes.module';
 
 @NgModule({
     declarations: [
@@ -15,9 +13,7 @@ import { GenreRoutesModule } from './genres/genre-routes.module';
     imports: [
         BrowserModule,
         HttpModule,
-        GenresModule,
-        BandsModule,
-        GenreRoutesModule
+        AppRoutesModule
     ],
     providers: [],
     bootstrap: [AppComponent]

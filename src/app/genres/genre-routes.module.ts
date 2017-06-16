@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule }   from '@angular/router';
 
-import { BAND_ROUTES } from '../bands/routes/root.route';
 import { GenresView } from './genres.view';
 import { GenreListingComponent } from './genre-listing.component';
 
@@ -16,8 +15,7 @@ export const GENRE_ROUTES: Route[] = [
             },
             {
                 path: 'genre/:genreId',
-                component: GenresView,
-                children: BAND_ROUTES
+                loadChildren: '../bands/bands.module#BandsModule'
             }
         ]
     }
@@ -26,7 +24,7 @@ export const GENRE_ROUTES: Route[] = [
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(GENRE_ROUTES)
+        RouterModule.forChild(GENRE_ROUTES)
     ],
     exports: [
         RouterModule
