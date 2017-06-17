@@ -9,33 +9,21 @@ Simplified for this use case, but will be more
 flexible in the wild
  */
 
-//declare type DynamicRouteDefinition = {
-//    rootModule: {
-//        filePath: string;
-//        children?: {
-//            [key: string]: string;
-//            children?: any;
-//        }
-//    }
-//}
-
 @Injectable()
 export class AppRoutesService {
     private routeConfig: {
+        rootModule: string,
         [key: string]: string;
     };
 
-    constructor(private http: Http, private router: Router) {
-        this.routeConfig = {};
-    }
+    constructor(private http: Http, private router: Router) {}
 
     setRoutes(): void {
         const fileNameSegment = this.determineRoutePath();
         this.fetchRoutes(fileNameSegment).subscribe(val => {
-            console.log('fetched routes', val);
-            const routes = this.mapRoutes(val);
+            this.routeConfig = val;
+            const routes = this.mapRoutes(this.routeConfig);
             this.router.resetConfig(routes);
-            console.log('made it through resetting the config');
             this.router.navigate(['']);
         });
     }
@@ -51,11 +39,11 @@ export class AppRoutesService {
         return location.port + '' === '4200' ? 'full-routes' : 'partial-routes';
     }
 
-    private fetchRoutes(filename: string): Observable<{[key: string]: string;}> {
+    private fetchRoutes(filename: string): Observable<{rootModule: string, [key: string]: string;}> {
         return this.http.get(`assets/data/${filename}.json`).map(res => res.json());
     }
 
-    private mapRoutes(routeDefinitions: {[key: string]: string;}): Route[] {
+    private mapRoutes(routeDefinitions: {rootModule: string, [key: string]: string;}): Route[] {
         let routes: Route[] = [];
 
         let route = {
