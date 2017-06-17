@@ -1,0 +1,6 @@
+{
+    "rootModule": {
+        "path": "../bands/bands.module#BandsModule",
+        "children": {}
+    }
+}
