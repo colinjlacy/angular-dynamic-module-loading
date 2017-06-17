@@ -7,12 +7,17 @@ import { StoreModule } from '@ngrx/store';
 import { AppComponent } from './app.component';
 import { AppRoutesService } from './app-routes.service';
 import { AppDummyComponent } from './app-dummy.component';
-//import { AppRoutesModule } from './app-routes.module';
+import { DynamicRouteMap } from './app.guard';
 
 const routes: Route[] = [
     {
-        path: '',
-        //component: AppDummyComponent,
+        path: '**',
+        component: AppDummyComponent,
+        canActivate: [DynamicRouteMap]
+    },
+    {
+        path: 'dummy',
+        component: AppDummyComponent,
         loadChildren: './genres/genres.module#GenresModule'
          //loadChildren: './bands/bands.module#BandsModule',
     },
@@ -34,7 +39,8 @@ const routes: Route[] = [
         //AppRoutesModule
     ],
     providers: [
-        AppRoutesService
+        AppRoutesService,
+        DynamicRouteMap
     ],
     bootstrap: [AppComponent]
 })

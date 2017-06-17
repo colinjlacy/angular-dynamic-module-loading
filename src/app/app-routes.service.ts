@@ -5,12 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 import { DynamicRouteMap } from './app.guard';
+import { RouteMapping } from './models/route-mapping.model';
 
-
-declare type RouteConfig = {
-    rootModule: string,
-    [key: string]: string;
-};
 
 /*
 Simplified for this use case, but will be more
@@ -19,13 +15,13 @@ flexible in the wild
 
 @Injectable()
 export class AppRoutesService {
-    private routeConfig: RouteConfig;
+    private routeConfig: RouteMapping;
 
-    constructor(private http: Http, private router: Router, private activeRoute: ActivatedRoute) {
+    constructor(private http: Http, private router: Router) {
         router.events.subscribe(val => console.log('router event', val));
     }
 
-    fetchRouteMappings(): Observable<RouteConfig> {
+    fetchRouteMappings(): Observable<RouteMapping> {
         const fileNameSegment = this.determineRoutePath();
         return this.fetchRoutes(fileNameSegment);
     }

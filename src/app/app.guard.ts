@@ -1,14 +1,18 @@
 import { Injectable } from "@angular/core";
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from "@angular/router";
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, Route } from "@angular/router";
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 
+import { AppComponent } from './app.component';
 import { AppRoutesService } from './app-routes.service';
+import { RouteMapping } from './models/route-mapping.model';
 
 @Injectable()
 export class DynamicRouteMap implements CanActivate {
 
     private isLoaded: boolean;
 
-    constructor(private routesService: AppRoutesService, private router: Router) {
+    constructor(private router: Router, private http: Http) {
         this.isLoaded = false;
     }
 
@@ -21,17 +25,44 @@ export class DynamicRouteMap implements CanActivate {
                 return;
             }
 
-            this.routesService.fetchRouteMappings()
+            this.fetchRouteMappings()
                 .subscribe(mappings => {
-                    this.routesService.mapRoutes(mappings);
+                    let routes = this.mapRoutes(mappings);
+                    this.router.resetConfig(routes);
 
                     // Set isLoaded to true, stop the original navigation request
                     this.isLoaded = true;
                     resolve(false);
 
                     // Retry the original navigation request
+                    console.log('about to navigate...');
                     this.router.navigateByUrl(state.url);
                 });
         });
     }
+
+    fetchRouteMappings(): Observable<RouteMapping> {
+        const fileNameSegment = this.determineRoutePath();
+        return this.fetchRoutes(fileNameSegment);
+    }
+
+    private determineRoutePath(): string {
+        return location.port + '' === '4200' ? 'full-routes' : 'partial-routes';
+    }
+
+    private fetchRoutes(filename: string): Observable<{rootModule: string, [key: string]: string;}> {
+        return this.http.get(`assets/data/${filename}.json`).map(res => res.json());
+    }
+
+    private mapRoutes(routeDefinitions: {rootModule: string, [key: string]: string;}): Route[] {
+
+        let routes: Route[] = [{
+            path: '',
+            canActivate: [DynamicRouteMap],
+            loadChildren: routeDefinitions.rootModule
+        }];
+
+        return routes;
+    }
+
 }
