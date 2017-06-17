@@ -12,7 +12,7 @@ import { AppDummyComponent } from './app-dummy.component';
 const routes: Route[] = [
     {
         path: '',
-        component: AppDummyComponent,
+        //component: AppDummyComponent,
         loadChildren: './genres/genres.module#GenresModule'
          //loadChildren: './bands/bands.module#BandsModule',
     },
