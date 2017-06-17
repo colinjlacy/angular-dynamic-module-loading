@@ -14,6 +14,5 @@ export class AppComponent {
 
     ngOnInit() {
         console.log('app component initialized!', this.route.snapshot);
-        //this.routesService.setRoutes();
     }
 }

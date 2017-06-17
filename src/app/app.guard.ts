@@ -11,6 +11,7 @@ import { RouteMapping } from './models/route-mapping.model';
 export class DynamicRouteMap implements CanActivate {
 
     private isLoaded: boolean;
+    private routeMapping: RouteMapping;
 
     constructor(private router: Router, private http: Http) {
         this.isLoaded = false;
@@ -19,15 +20,16 @@ export class DynamicRouteMap implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
         return new Promise(resolve => {
             if (this.isLoaded) {
-                // The routes have already been added.
-                // If we've hit this again, the route definitely doesn't exist.
+                console.log('about to navigate to route', route);
+                console.log('about to navigate to state', state);
                 resolve(true);
                 return;
             }
 
             this.fetchRouteMappings()
                 .subscribe(mappings => {
-                    let routes = this.mapRoutes(mappings);
+                    this.routeMapping = mappings;
+                    let routes = this.mapRoutes(this.routeMapping);
                     this.router.resetConfig(routes);
 
                     // Set isLoaded to true, stop the original navigation request
@@ -35,7 +37,6 @@ export class DynamicRouteMap implements CanActivate {
                     resolve(false);
 
                     // Retry the original navigation request
-                    console.log('about to navigate...');
                     this.router.navigateByUrl(state.url);
                 });
         });
@@ -54,7 +55,7 @@ export class DynamicRouteMap implements CanActivate {
         return this.http.get(`assets/data/${filename}.json`).map(res => res.json());
     }
 
-    private mapRoutes(routeDefinitions: {rootModule: string, [key: string]: string;}): Route[] {
+    private mapRoutes(routeDefinitions: RouteMapping): Route[] {
 
         let routes: Route[] = [{
             path: '',

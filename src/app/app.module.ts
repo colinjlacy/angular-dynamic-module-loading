@@ -10,19 +10,34 @@ import { AppDummyComponent } from './app-dummy.component';
 import { DynamicRouteMap } from './app.guard';
 
 const routes: Route[] = [
+    /*
+    This route definition kicks off the initial DynamicRouteMap guard.
+    In doing so, it fetches the route mapping and sets the root route.
+    Notice that the console log in AppDummyComponent never fires.
+     */
     {
         path: '**',
         component: AppDummyComponent,
         canActivate: [DynamicRouteMap]
     },
+    /*
+    These two routes don't do anything and will be replaced immediately.
+    The only reason they're here is for the purposes of this demo.
+    Since @angular/cli uses @ngtools/webpack, I needed to have the modules
+    I'll eventually call listed in a `loadChildren` property so that
+    they'll be parsed out into a build chunk.
+
+    In the wild you'd have your own modules chunked out as part of your
+    build process.
+     */
     {
         path: 'dummy',
         component: AppDummyComponent,
         loadChildren: './genres/genres.module#GenresModule'
-         //loadChildren: './bands/bands.module#BandsModule',
     },
     {
         path: 'also-dummy',
+        component: AppDummyComponent,
         loadChildren: './bands/bands.module#BandsModule'
     }
 ];
@@ -36,7 +51,6 @@ const routes: Route[] = [
         BrowserModule,
         HttpModule,
         RouterModule.forRoot(routes)
-        //AppRoutesModule
     ],
     providers: [
         AppRoutesService,
