@@ -1,4 +1,4 @@
 {
     "rootModule": "./genres/genres.module#GenresModule",
-    "genre/:genreId": "../bands/bands.module#BandsModule"
+    "genre/:genreId": "./bands/bands.module#BandsModule"
 }

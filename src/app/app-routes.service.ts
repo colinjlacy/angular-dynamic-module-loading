@@ -16,13 +16,15 @@ export class AppRoutesService {
         [key: string]: string;
     };
 
-    constructor(private http: Http, private router: Router) {}
+    constructor(private http: Http, private router: Router) {
+        router.events.subscribe(val => console.log('router event', val));
+    }
 
     setRoutes(): void {
         const fileNameSegment = this.determineRoutePath();
         this.fetchRoutes(fileNameSegment).subscribe(val => {
-            this.routeConfig = val;
-            const routes = this.mapRoutes(this.routeConfig);
+            window['routeDefinitions'] = val;
+            const routes = this.mapRoutes(val);
             this.router.resetConfig(routes);
             this.router.navigate(['']);
         });

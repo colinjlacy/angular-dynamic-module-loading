@@ -15,6 +15,10 @@ const routes: Route[] = [
         component: AppDummyComponent,
         loadChildren: './genres/genres.module#GenresModule'
          //loadChildren: './bands/bands.module#BandsModule',
+    },
+    {
+        path: 'also-dummy',
+        loadChildren: './bands/bands.module#BandsModule'
     }
 ];
 

@@ -16,7 +16,7 @@ export const GENRE_ROUTES: Route[] = [
             },
             {
                 path: 'genre/:genreId',
-                loadChildren: '../bands/bands.module#BandsModule'
+                loadChildren: window['routeDefinitions']['genre/:genreId']
             }
         ]
     }
