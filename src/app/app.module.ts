@@ -28,7 +28,8 @@ const routes: Route[] = [
     they'll be parsed out into a build chunk.
 
     In the wild you'd have your own modules chunked out as part of your
-    build process.
+    build process.  This is one of the ways in which I've found that
+    @angular/cli doesn't work for modular development. Which is a bummer.
      */
     {
         path: 'dummy',

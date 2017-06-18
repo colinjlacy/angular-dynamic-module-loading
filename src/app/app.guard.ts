@@ -11,25 +11,28 @@ import { RouteMapping } from './models/route-mapping.model';
 export class DynamicRouteMap implements CanActivate {
 
     private isLoaded: boolean;
-    private routeMapping: RouteMapping;
 
-    constructor(private router: Router, private http: Http) {
+    constructor(private router: Router, private routeService: AppRoutesService) {
         this.isLoaded = false;
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
         return new Promise(resolve => {
             if (this.isLoaded) {
-                console.log('about to navigate to route', route);
-                console.log('about to navigate to state', state);
                 resolve(true);
                 return;
             }
 
-            this.fetchRouteMappings()
+            this.routeService.fetchRouteMappings()
                 .subscribe(mappings => {
-                    this.routeMapping = mappings;
-                    let routes = this.mapRoutes(this.routeMapping);
+                    /*
+                    I tried every way I could think of to pass this mapping around
+                    the app without attaching it to the window.  I can't really find
+                    a better way to get this data into lazy-loaded route configs in
+                    order to remap to load their own child modules programmatically
+                     */
+                    window['dynamicRouteMappings'] = mappings;
+                    let routes = this.mapRoutes(mappings);
                     this.router.resetConfig(routes);
 
                     // Set isLoaded to true, stop the original navigation request
@@ -42,28 +45,13 @@ export class DynamicRouteMap implements CanActivate {
         });
     }
 
-    fetchRouteMappings(): Observable<RouteMapping> {
-        const fileNameSegment = this.determineRoutePath();
-        return this.fetchRoutes(fileNameSegment);
-    }
-
-    private determineRoutePath(): string {
-        return location.port + '' === '4200' ? 'full-routes' : 'partial-routes';
-    }
-
-    private fetchRoutes(filename: string): Observable<{rootModule: string, [key: string]: string;}> {
-        return this.http.get(`assets/data/${filename}.json`).map(res => res.json());
-    }
-
     private mapRoutes(routeDefinitions: RouteMapping): Route[] {
 
         let routes: Route[] = [{
             path: '',
-            canActivate: [DynamicRouteMap],
             loadChildren: routeDefinitions.rootModule
         }];
 
         return routes;
     }
-
 }
