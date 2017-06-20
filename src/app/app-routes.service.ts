@@ -7,6 +7,30 @@ import 'rxjs/add/operator/map';
 import { RouteMapping } from './models/route-mapping.model';
 
 
+export function RewireRoutes(routes: Route[]): Route[] {
+    // This function can't be resolved statically.
+    // This may be because it references window, or uses string keys of a map.
+
+
+/*
+ *    if (!window['dynamicRouteMappings']) return routes;
+ *
+ *    const paths = Object.keys(window['dynamicRouteMappings']);
+ *    routes.forEach((route: Route) => {
+ *        if (route.children) {
+ *            RewireRoutes(route.children);
+ *        }
+ *        const ind = paths.findIndex(x => x === route.path);
+ *        if (ind > -1) {
+ *            route.loadChildren = window['dynamicRouteMappings'][paths[ind]];
+ *        }
+ *    });
+ */
+
+    return routes;
+}
+
+
 @Injectable()
 export class AppRoutesService {
 
