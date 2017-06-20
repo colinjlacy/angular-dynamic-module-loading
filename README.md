@@ -8,25 +8,14 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 ## Concept
 
-One of the core beliefs of my architecture team at work is that most of the common functionality that builds out a view can be abstracted away, so that data fetching is no longer a concern for developers doing feature work.  This project acts as a PoC to prove out that concept, using [@ngrx/store](https://github.com/ngrx/store) to maintain and distribute application state for each view.  It will likely serve as an example for how we will continue  to work on our existing data resolution pipeline.
- 
-## Key features
+**Note that there is currently a bug with AOT, where a static function call is causing compilation errors on the first attempt at compilation when running Webpack-dev-server.  Modfying and saving any file, triggering a recompilation while the server is still running will result in a successful compilation.** 
 
-First and foremost, the data resolution model identified here makes use of service abstraction to fetch data.  While the `DataService` in this application maintains a list of hard-coded JSON file paths, in a real world application this would map dependency data commands (e.g. `get-bands`) to backend services by fetching an API configuration mapping from a middleware reverse proxy.  That allows API endpoints to remain anonymous to the front-end code, while still creating a functional REST relationship between the front-end and backend services.  Totally freaking baller.
+In building enterprise apps, one of the things we often have to deal with is modular configurability.  That is, configuration of which feature-sets a user or a business has access to.  This can be decided by numerous factors - from the location of the user, to the certifications a user has, to the features a business has paid for, etc.  Ultimately when building a modular application, we have to first load up some configuration before we can determine what feature sets to show a user, especially in a multi-tennant setting.
 
-Each route defines the data it needs resolved, and in declaring its actions as values of data keys, it creates a dictionary object for the `ModelResolve` to populate.  For example, in the `band/:id/song/:songId` route, we have the following definition:
-```
-{
-    band: 'get-band',
-    song: 'get-song'
-}
-```
-The `ModelResolve` will re-map those values into an object containing the same keys, with the values replaced as Observables that return data from the backend.  This is simulated using hard-coded JSON files served over HTTP.
+This PoC attempts to do exactly that.  It fetches a configuration from a JSON file, and then maps that configuration to a route hierarchy.  The logic for which configuration is loaded is hard-coded to be determined by the port number that the app is served from within a local environment.  Apps served at `localhost:4200` will see the full route hierarchy, while apps served at `localhost:4201` will see a limited workflow.
 
-Since each `view` (often referred to as Smart Components) receives its data from the `Store` and passes it down through the component tree, we can extract the boilerplate code that makes that work into a base class that each view can inherit from.  Hence the creation of the `BaseView`.  The `BaseView` handles subscribing to the `Store` in the `ngOnInit` hook, as well as un-subscribing as part of the `ngOnDestroy` lifecycle hook.  Devs can add functionality to the `ngOnInit` or `ngOnDestroy` hook using the `baseViewHooks` property.
+To test, run `ng serve`.  This will serve the app at port `4200`, and will open the app to the `Genres` view.  Select a genre, and you'll see a list of bands.  Note that genres and bands are in two different modules.  The configuration served adds the `loadChildren` property to the genres router module, indicating which module to load next.
 
-By default, data is automatically removed from the `Store` or overwritten when a view is destroyed.  This is also handled by the `BaseView` in its `ngOnDestroy` hook.  This can be prevented by passing in an object to the `super` call when extending the `BaseView`.  The goal is to prevent the state from getting too bloated as the user navigates through the app.  
+Now re-run the server at port `4201`, by running `ng serve --port 4201`.  This will serve the app in a limited workflow, thus only showing the `Bands` module at the root.
 
-Alternatively, a dev could choose not to extend the `BaseView` when creating a view.  This would leave the subscribing, un-subscribing, and maintenance of the `Store` entirely up to them.  So long as `dependencies` are listed within a route declaration, and the `ModelResolve` is set on a `route.data` property, fetched data will automatically be added to the `Store` when a route is loaded. 
-
-To that end, in theory, if a root view contained all of the data necessary to load an application, a dev could load it all into the `Store` at startup, and then ensure that it's maintained throughout the use of the app.  That's a bit extreme, but you get the idea.
+The key takeaway is that based on a configuration, not only can we set the entry point of the app, we can also set a workflow through the app.  In doing so, we can modify the context in which child modules operate by adding contextual data to their functionality.  
