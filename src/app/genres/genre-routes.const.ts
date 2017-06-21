@@ -1,6 +1,6 @@
 import { Route }   from '@angular/router';
 
-import { AppRoutesService } from '../app-routes.service'
+import { AppRoutesService, RewireRoutes } from '../app-routes.service'
 import { GenresView } from './genres.view';
 import { GenreListingComponent } from './genre-listing.component';
 
@@ -20,4 +20,4 @@ export const GENRE_ROUTES: Route[] = [
     }
 ];
 
-export const REWIRED_ROUTES: Route[] = AppRoutesService.rewire(GENRE_ROUTES);
+export const REWIRED_ROUTES: Route[] = RewireRoutes(GENRE_ROUTES);
